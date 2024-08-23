@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("uo9Project")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a947abe0769fca9ee30f98d8b41fbb8753b95e87")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2bc239092164ea2f5df8882581ab1135955af351")]
 [assembly: System.Reflection.AssemblyProductAttribute("uo9Project")]
 [assembly: System.Reflection.AssemblyTitleAttribute("uo9Project")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
