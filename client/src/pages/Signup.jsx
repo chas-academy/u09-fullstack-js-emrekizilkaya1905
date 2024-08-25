@@ -46,12 +46,12 @@ export default function Signup() {
               className="px-2 py-1 bg-gradient-to-tr from-red-600 via-yellow-500
          to-white rounded-lg text-white"
             >
-              Emre's
+              Turkey
             </span>
             Blog
           </Link>
           <p className="text-sm mt-5 font-semibold">
-            This is a travel blog project. You can sign up with your email and
+            This is a Turkey's cities blog. You can sign up with your email and
             password or with Google.
           </p>
         </div>

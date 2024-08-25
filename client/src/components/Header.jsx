@@ -16,7 +16,7 @@ const Header = () => {
           className="px-2 py-1 bg-gradient-to-tr from-red-600 via-yellow-500
          to-white rounded-lg text-white"
         >
-          Emre's
+          Turkey
         </span>
         Blog
       </Link>
