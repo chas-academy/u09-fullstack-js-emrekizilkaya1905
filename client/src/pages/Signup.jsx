@@ -1,14 +1,19 @@
-import { Button, Label, TextInput } from "flowbite-react";
+import { Alert, Button, Label, TextInput } from "flowbite-react";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 export default function Signup() {
-  const [formData, setformData] = useState({});
+  const [formData, setFormData] = useState({});
+  const [errorMessage, setErrorMessage] = useState(null);
+  const [loading, setLoading] = useState(false);
   const handleChange = (e) => {
-    setformData({ ...formData, [e.target.id]: e.target.value });
+    setFormData({ ...formData, [e.target.id]: e.target.value.trim() });
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!formData.username || !formData.email || !formData.password) {
+      return setErrorMessage("Please fill the all fields!");
+    }
     try {
       const response = await fetch("/api/auth/signup", {
         method: "POST",
@@ -16,7 +21,12 @@ export default function Signup() {
         body: JSON.stringify(formData),
       });
       const data = await response.json();
-    } catch (error) {}
+      if (data.success === false) {
+        return setErrorMessage(data.message);
+      }
+    } catch (error) {
+      setErrorMessage(error.message);
+    }
   };
   return (
     <div className="min-h-screen mt-20">
@@ -77,6 +87,11 @@ export default function Signup() {
               Sign In
             </Link>
           </div>
+          {errorMessage && (
+            <Alert className="mt-5" color="failure">
+              {errorMessage}
+            </Alert>
+          )}
         </div>
       </div>
     </div>
