@@ -1,11 +1,12 @@
-import { Alert, Button, Label, TextInput } from "flowbite-react";
+import { Alert, Button, Label, Spinner, TextInput } from "flowbite-react";
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Signup() {
   const [formData, setFormData] = useState({});
   const [errorMessage, setErrorMessage] = useState(null);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value.trim() });
   };
@@ -15,6 +16,8 @@ export default function Signup() {
       return setErrorMessage("Please fill the all fields!");
     }
     try {
+      setLoading(true);
+      setErrorMessage(null);
       const response = await fetch("/api/auth/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -24,9 +27,14 @@ export default function Signup() {
       if (data.success === false) {
         return setErrorMessage(data.message);
       }
+      setLoading(false);
+      if (response.ok) {
+        navigate("/sign-in");
+      }
     } catch (error) {
       setErrorMessage(error.message);
     }
+    setLoading(false);
   };
   return (
     <div className="min-h-screen mt-20">
@@ -77,8 +85,20 @@ export default function Signup() {
                 onChange={handleChange}
               />
             </div>
-            <Button gradientDuoTone="purpleToPink" type="submit">
-              Sign Up
+            <Button
+              gradientDuoTone="purpleToPink"
+              type="submit"
+              disabled={loading}
+            >
+              {loading ? (
+                <>
+                  <Spinner size="sm">
+                    <span className="pl-3">Loading...</span>
+                  </Spinner>
+                </>
+              ) : (
+                "Sign Up"
+              )}
             </Button>
           </form>
           <div className="flex gap-2 text-sm mt-5">
