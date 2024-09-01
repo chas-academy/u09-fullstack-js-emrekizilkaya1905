@@ -82,7 +82,7 @@ export const google = async (request, response, next) => {
       const { password, ...rest } = newUser._doc;
       response
         .status(200)
-        .cookie("access-token", token, {
+        .cookie("access_token", token, {
           httpOnly: true,
         })
         .json(rest);
