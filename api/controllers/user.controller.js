@@ -33,23 +33,23 @@ export const updateUser = async (request, response, next) => {
         errorHandler(400, "Username can only contain letters and numbers.")
       );
     }
-    try {
-      const updatedUser = await User.findByIdAndUpdate(
-        request.params.userId,
-        {
-          $set: {
-            username: request.body.username,
-            email: request.body.email,
-            profilePicture: request.body.profilePicture,
-            password: request.body.password,
-          },
+  }
+  try {
+    const updatedUser = await User.findByIdAndUpdate(
+      request.params.userId,
+      {
+        $set: {
+          username: request.body.username,
+          email: request.body.email,
+          profilePicture: request.body.profilePicture,
+          password: request.body.password,
         },
-        { new: true }
-      );
-      const { password, ...rest } = updatedUser._doc;
-      response.status(200).json(rest);
-    } catch (error) {
-      next(error);
-    }
+      },
+      { new: true }
+    );
+    const { password, ...rest } = updatedUser._doc;
+    response.status(200).json(rest);
+  } catch (error) {
+    next(error);
   }
 };
