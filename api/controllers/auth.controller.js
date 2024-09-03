@@ -3,7 +3,7 @@ import bcryptjs from "bcryptjs";
 import { errorHandler } from "../utils/error.js";
 import jwt from "jsonwebtoken";
 
-// Added next for using middleware.
+// Added next for using middleware. Which we created on index.js
 export const signup = async (request, response, next) => {
   const { username, email, password } = request.body;
   if (
