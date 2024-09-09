@@ -17,6 +17,7 @@ export default function CreatePost() {
   const [imageUploadProcess, setImageUploadProcess] = useState(null);
   const [imageUploadError, setImageUploadError] = useState(null);
   const [formData, setFormData] = useState({});
+
   const handleUploadImage = async () => {
     try {
       if (!file) {
@@ -55,7 +56,7 @@ export default function CreatePost() {
   return (
     <div className="p-3 max-w-3xl mx-auto min-h-screen">
       <h1 className="text-center text-3xl my-7 font-semibold">Create a Post</h1>
-      <form className="flex flex-col gap-4">
+      <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
         <div className="flex flex-col gap-4 sm:flex-row justify-between">
           <TextInput
             type="text"
@@ -63,8 +64,21 @@ export default function CreatePost() {
             required
             id="title"
             className="flex-1"
+            onChange={(e) =>
+              setFormData({
+                ...formData,
+                title: e.target.value,
+              })
+            }
           />
-          <Select>
+          <Select
+            onChange={(e) =>
+              setFormData({
+                ...formData,
+                category: e.target.value,
+              })
+            }
+          >
             <option value="uncategorized">Select a category</option>
             <option value="izmir">Izmir</option>
             <option value="istanbul">Istanbul</option>
@@ -110,6 +124,9 @@ export default function CreatePost() {
           placeholder="Write Something..."
           className="h-72 mb-12"
           required
+          onChange={(value) => {
+            setFormData({ ...formData, content: value });
+          }}
         />
         <Button type="submit" gradientDuoTone="purpleToBlue">
           Publish
