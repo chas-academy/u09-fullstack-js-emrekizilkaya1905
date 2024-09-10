@@ -11,12 +11,16 @@ import "react-quill/dist/quill.snow.css";
 import { app } from "../firebase";
 import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
+import { useNavigate } from "react-router-dom";
 
 export default function CreatePost() {
   const [file, setFile] = useState(null);
   const [imageUploadProcess, setImageUploadProcess] = useState(null);
   const [imageUploadError, setImageUploadError] = useState(null);
   const [formData, setFormData] = useState({});
+  const [publishError, setPublishError] = useState(null);
+  const [postCreate, setPostCreate] = useState(null);
+  const navigate = useNavigate();
 
   const handleUploadImage = async () => {
     try {
@@ -51,6 +55,33 @@ export default function CreatePost() {
     } catch (error) {
       setImageUploadError("Image upload failed");
       setImageUploadProcess(null);
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch("/api/post/create", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+      setPostCreate("Post created.");
+      if (!response.ok) {
+        setPublishError(data.message);
+        return;
+      }
+      if (response.ok) {
+        setPublishError(null);
+        navigate(`/post/${data.slug}`);
+        return;
+      }
+    } catch (error) {
+      setPublishError("Something went wrong.");
     }
   };
   return (
@@ -131,6 +162,17 @@ export default function CreatePost() {
         <Button type="submit" gradientDuoTone="purpleToBlue">
           Publish
         </Button>
+        {publishError && (
+          <Alert className="mt-5" color="failure">
+            {" "}
+            {publishError}
+          </Alert>
+        )}
+        {postCreate && (
+          <Alert className="mt-5" color="success">
+            {postCreate}
+          </Alert>
+        )}
       </form>
     </div>
   );
