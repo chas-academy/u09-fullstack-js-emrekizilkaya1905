@@ -79,10 +79,13 @@ export default function DashProfile() {
           setImageFileUrl(downloadUrl);
           setFormData({ ...formData, profilePicture: downloadUrl });
           setImageFileUploadingProcess(false);
+          setImageFileUploading(null);
         });
       }
     );
   };
+  console.log(imageFileUrl);
+  console.log(formData);
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
@@ -227,6 +230,7 @@ export default function DashProfile() {
           outline
           disabled={loading || imageFileUploading}
         >
+          {/* Update */}
           {loading ? "Loading..." : "Update"}
         </Button>
         {currentUser.isAdmin && (
