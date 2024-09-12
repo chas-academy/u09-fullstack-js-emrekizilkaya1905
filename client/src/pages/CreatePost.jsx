@@ -70,7 +70,7 @@ export default function CreatePost() {
       });
 
       const data = await response.json();
-      setPostCreate("Post created.");
+
       if (!response.ok) {
         setPublishError(data.message);
         return;
@@ -78,6 +78,7 @@ export default function CreatePost() {
       if (response.ok) {
         setPublishError(null);
         navigate(`/post/${data.slug}`);
+        setPostCreate("Post created.");
         return;
       }
     } catch (error) {
