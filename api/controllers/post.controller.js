@@ -12,7 +12,10 @@ export const create = async (request, response, next) => {
     .split(" ")
     .join("-")
     .toLowerCase()
-    .replace(/[^a-zA-Z0-9-]/g, "-");
+    .replace(/[^a-zA-Z0-9-]/g, "-")
+    .replace(/--+/g, "-")
+    .replace(/^-+|-+$/g, "");
+
   const newPost = new Post({ ...request.body, slug, userId: request.user.id });
   try {
     const savedPost = await newPost.save();
@@ -76,11 +79,20 @@ export const deletepost = async (request, response, next) => {
     next(error);
   }
 };
+
 export const updatepost = async (request, response, next) => {
   if (!request.user.isAdmin || request.user.id !== request.params.userId) {
-    return next(errorHandler(403, "You are not allowed to delete this post."));
+    return next(errorHandler(403, "You are not allowed to update this post."));
   }
   try {
+    const slug = request.body.title
+      .split(" ")
+      .join("-")
+      .toLowerCase()
+      .replace(/[^a-zA-Z0-9-]/g, "-")
+      .replace(/--+/g, "-")
+      .replace(/^-+|-+$/g, "");
+
     const updatedPost = await Post.findByIdAndUpdate(
       request.params.postId,
       {
@@ -89,10 +101,12 @@ export const updatepost = async (request, response, next) => {
           content: request.body.content,
           category: request.body.category,
           image: request.body.image,
+          slug,
         },
       },
       { new: true }
     );
+
     response.status(200).json(updatedPost);
   } catch (error) {
     next(error);

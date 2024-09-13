@@ -97,7 +97,7 @@ export default function UpdatePost() {
       );
 
       const data = await response.json();
-      setPostCreate("Post created.");
+      setPostCreate("Post updated.");
       if (!response.ok) {
         setPublishError(data.message);
         return;
