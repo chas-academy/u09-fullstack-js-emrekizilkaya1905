@@ -30,14 +30,15 @@ const DashPosts = () => {
       fetchPosts();
     }
   }, [currentUser._id]);
+
   const handleShowMore = async () => {
     const startIndex = userPosts.length;
     try {
-      const res = await fetch(
+      const response = await fetch(
         `/api/post/getposts?userId=${currentUser._id}&startIndex=${startIndex}`
       );
-      const data = await res.json();
-      if (res.ok) {
+      const data = await response.json();
+      if (response.ok) {
         setUserPosts((prev) => [...prev, ...data.posts]);
         if (data.posts.length < 9) {
           setShowMore(false);
@@ -47,6 +48,7 @@ const DashPosts = () => {
       console.log(error.message);
     }
   };
+
   const handleDeletePost = async () => {
     setShowModal(false);
     try {
