@@ -62,9 +62,6 @@ const DashUsers = () => {
               <Table.HeadCell>Email</Table.HeadCell>
               <Table.HeadCell>Admin</Table.HeadCell>
               <Table.HeadCell>Delete</Table.HeadCell>
-              <Table.HeadCell>
-                <span>Edit</span>
-              </Table.HeadCell>
             </Table.Head>
             {users.map((user) => (
               <Table.Body key={user._id} className="divide-y">
@@ -98,9 +95,6 @@ const DashUsers = () => {
                     >
                       Delete
                     </span>
-                  </TableCell>
-                  <TableCell>
-                    <span className="hover:underline text-blue-600">Edit</span>
                   </TableCell>
                 </Table.Row>
               </Table.Body>

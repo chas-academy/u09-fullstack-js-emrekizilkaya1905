@@ -3,7 +3,9 @@ import {
   HiArrowSmRight,
   HiDocumentText,
   HiOutlineUserAdd,
+  HiOutlineUserCircle,
   HiOutlineUserGroup,
+  HiOutlineUserRemove,
   HiUser,
 } from "react-icons/hi";
 import { Link, useLocation } from "react-router-dom";
@@ -87,6 +89,18 @@ export default function DashSidebar() {
                 as="div"
               >
                 Create User
+              </Sidebar.Item>
+            </Link>
+          )}
+          {currentUser.isAdmin && (
+            <Link to="/dashboard?tab=updateusers">
+              <Sidebar.Item
+                active={tab === "updateusers"}
+                icon={HiOutlineUserCircle}
+                labelColor="dark"
+                as="div"
+              >
+                Update User
               </Sidebar.Item>
             </Link>
           )}

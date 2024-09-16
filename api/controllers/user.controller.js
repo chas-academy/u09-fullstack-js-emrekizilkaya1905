@@ -118,3 +118,28 @@ export const getUsers = async (req, res, next) => {
     next(error);
   }
 };
+
+export const createUser = async (request, response, next) => {
+  if (!request.user.isAdmin) {
+    return next(errorHandler(403, "You are not allowed to create user."));
+  }
+  const { username, email, password } = request.body;
+  if (
+    !username ||
+    !email ||
+    !password ||
+    username === "" ||
+    email === "" ||
+    password === ""
+  ) {
+    return next(errorHandler(400, "All fields are required"));
+  }
+  const hashedPassword = bcryptjs.hashSync(password, 10);
+  const newUser = new User({ username, email, password: hashedPassword });
+  try {
+    await newUser.save();
+    response.json("User created.");
+  } catch (error) {
+    next(error);
+  }
+};
