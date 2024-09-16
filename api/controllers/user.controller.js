@@ -8,7 +8,7 @@ export const test = (request, response) => {
 };
 
 export const updateUser = async (request, response, next) => {
-  if (request.user.id !== request.params.userId) {
+  if (!request.user.isAdmin && request.user.id !== request.params.userId) {
     return next(errorHandler(401, "You are not allowed to use this"));
   }
   if (request.body.password) {
@@ -34,6 +34,9 @@ export const updateUser = async (request, response, next) => {
         errorHandler(400, "Username can only contain letters and numbers.")
       );
     }
+    if (request.body.isAdmin !== undefined && !request.user.isAdmin) {
+      return next(errorHandler(403, "Only admins can change admin status."));
+    }
   }
   try {
     const updatedUser = await User.findByIdAndUpdate(
@@ -44,6 +47,7 @@ export const updateUser = async (request, response, next) => {
           email: request.body.email,
           profilePicture: request.body.profilePicture,
           password: request.body.password,
+          isAdmin: request.body.isAdmin,
         },
       },
       { new: true }

@@ -1,6 +1,14 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Table, TableCell, Modal, Button } from "flowbite-react";
+import {
+  Table,
+  TableCell,
+  Modal,
+  Button,
+  Label,
+  TextInput,
+  Checkbox,
+} from "flowbite-react";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 import { FaCheck, FaTimes } from "react-icons/fa";
 
@@ -10,6 +18,8 @@ const DashUsers = () => {
   const [showMore, setShowMore] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [userIdToDelete, setUserIdToDelete] = useState("");
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(null);
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -62,6 +72,30 @@ const DashUsers = () => {
       console.log(error);
     }
   };
+  const handleEditUser = (user) => {
+    setSelectedUser(user);
+    setShowEditModal(true);
+  };
+
+  const handleUpdateUser = async () => {
+    try {
+      const response = await fetch(`/api/user/update/${selectedUser._id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(selectedUser),
+      });
+      if (!response.ok) {
+        throw new Error("Error updating user");
+      }
+
+      const result = await response.json();
+      console.log("User updated:", result);
+      setShowEditModal(false);
+      alert("User updated successfully");
+    } catch (error) {}
+  };
   return (
     <div
       className="table-auto overflow-x-scroll md:mx-auto p-3 scrollbar scrollbar-track-slate-100 
@@ -101,7 +135,14 @@ const DashUsers = () => {
                       <FaTimes className="text-red-500" />
                     )}
                   </TableCell>
-                  <TableCell>Edit</TableCell>
+                  <TableCell>
+                    <span
+                      className="font-medium text-blue-500 hover:underline cursor-pointer"
+                      onClick={() => handleEditUser(user)}
+                    >
+                      Edit
+                    </span>
+                  </TableCell>
                   <TableCell>
                     <span
                       className="font-medium text-red-500 hover:underline cursor-pointer"
@@ -128,6 +169,61 @@ const DashUsers = () => {
         </>
       ) : (
         <p>You have no users yet.</p>
+      )}
+      {/* Edit Modal */}
+      {showEditModal && selectedUser && (
+        <Modal
+          show={showEditModal}
+          onClose={() => setShowEditModal(false)}
+          popup
+          size="md"
+        >
+          <Modal.Header>Edit User</Modal.Header>
+          <Modal.Body>
+            <div className="flex flex-col space-y-4">
+              <div>
+                <Label>Username</Label>
+                <TextInput
+                  value={selectedUser.username}
+                  onChange={(e) =>
+                    setSelectedUser({
+                      ...selectedUser,
+                      username: e.target.value,
+                    })
+                  }
+                />
+              </div>
+              <div>
+                <Label>Email</Label>
+                <TextInput
+                  value={selectedUser.email}
+                  onChange={(e) =>
+                    setSelectedUser({ ...selectedUser, email: e.target.value })
+                  }
+                />
+              </div>
+
+              <div>
+                <Label>Admin</Label>
+                <Checkbox
+                  checked={selectedUser.isAdmin}
+                  onChange={(e) =>
+                    setSelectedUser({
+                      ...selectedUser,
+                      isAdmin: e.target.checked,
+                    })
+                  }
+                />
+              </div>
+            </div>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button onClick={handleUpdateUser}>Save Changes</Button>
+            <Button color="gray" onClick={() => setShowEditModal(false)}>
+              Cancel
+            </Button>
+          </Modal.Footer>
+        </Modal>
       )}
       <Modal
         show={showModal}
