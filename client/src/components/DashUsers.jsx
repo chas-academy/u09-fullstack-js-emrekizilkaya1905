@@ -46,7 +46,22 @@ const DashUsers = () => {
       console.log(error.message);
     }
   };
-  const handleDeleteUser = () => {};
+  const handleDeleteUser = async () => {
+    try {
+      const response = await fetch(`/api/user/delete/${userIdToDelete}`, {
+        method: "DELETE",
+      });
+      const data = await response.json();
+      if (response.ok) {
+        setUsers((prev) => prev.filter((user) => user._id !== userIdToDelete));
+        setShowModal(false);
+      } else {
+        console.log(data.message);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div
       className="table-auto overflow-x-scroll md:mx-auto p-3 scrollbar scrollbar-track-slate-100 
@@ -61,6 +76,7 @@ const DashUsers = () => {
               <Table.HeadCell>Username</Table.HeadCell>
               <Table.HeadCell>Email</Table.HeadCell>
               <Table.HeadCell>Admin</Table.HeadCell>
+              <Table.HeadCell>Edit</Table.HeadCell>
               <Table.HeadCell>Delete</Table.HeadCell>
             </Table.Head>
             {users.map((user) => (
@@ -85,6 +101,7 @@ const DashUsers = () => {
                       <FaTimes className="text-red-500" />
                     )}
                   </TableCell>
+                  <TableCell>Edit</TableCell>
                   <TableCell>
                     <span
                       className="font-medium text-red-500 hover:underline cursor-pointer"

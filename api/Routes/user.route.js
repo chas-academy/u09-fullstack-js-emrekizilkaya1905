@@ -16,4 +16,5 @@ router.delete("/delete/:userId", verifyToken, deleteUser);
 router.post("/signout", signout);
 router.get("/getusers", verifyToken, getUsers);
 router.post("/createuser", verifyToken, createUser);
+
 export default router;
