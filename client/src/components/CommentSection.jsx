@@ -1,10 +1,12 @@
-import React from "react";
+import { Button, Textarea, TextInput } from "flowbite-react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 const CommentSection = ({ postId }) => {
-  console.log(postId);
   const { currentUser } = useSelector((state) => state.user);
+  const [comment, setComment] = useState("");
+  const handleSubmit = async (e) => {};
   return (
     <div className="max-w-2xl mx-auto w-full p-3">
       {currentUser ? (
@@ -23,10 +25,34 @@ const CommentSection = ({ postId }) => {
           </Link>
         </div>
       ) : (
-        <div className="">
+        <div className="text-sm text-teal-500 my-5 flex gap-2">
           You must be signed in for the comment.
-          <Link to={"/sign-in"}>Sign in</Link>
+          <Link to={"/sign-in"} className="text-blue-500 hover:underline">
+            Sign in
+          </Link>
         </div>
+      )}
+      {currentUser && (
+        <form
+          className="border border-teal-500 rounded-md p-3"
+          onSubmit={handleSubmit}
+        >
+          <Textarea
+            placeholder="Add comment.."
+            rows={3}
+            maxLength="200"
+            onChange={(e) => setComment(e.target.value)}
+            value={comment}
+          />
+          <div className="flex justify-between items-center mt-5">
+            <p className="text-gray-500 text-xs">
+              {200 - comment.length} characters remaining
+            </p>
+            <Button outline gradientDuoTone="purpleToBlue" type="submit">
+              Submit
+            </Button>
+          </div>
+        </form>
       )}
     </div>
   );
