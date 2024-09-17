@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Button } from "flowbite-react";
+import CallAction from "../components/CallAction";
 
 export default function PostPage() {
   const { postSlug } = useParams();
@@ -59,6 +60,9 @@ export default function PostPage() {
         className="p-3 max-w-2xl mx-auto w-full"
         dangerouslySetInnerHTML={{ __html: post && post.content }}
       ></div>
+      <div className="max-w-4xl mx-auto w-full">
+        <CallAction />
+      </div>
     </main>
   );
 }
