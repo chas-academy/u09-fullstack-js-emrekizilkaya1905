@@ -1,35 +1,56 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { Button } from "flowbite-react";
+import { Button, Spinner } from "flowbite-react";
 import CallAction from "../components/CallAction";
+import CommentSection from "../components/CommentSection";
 
 export default function PostPage() {
   const { postSlug } = useParams();
 
-  const [error, setError] = useState(false);
   const [post, setPost] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     const fetchPost = async () => {
       try {
-        const response = await fetch(`/api/post/getposts?slug=${postSlug}`);
-        const data = await response.json();
-        if (!response.ok) {
+        setLoading(true);
+        const res = await fetch(`/api/post/getposts?slug=${postSlug}`);
+        const data = await res.json();
+        if (!res.ok) {
           setError(true);
-
+          setLoading(false);
           return;
         }
-        if (response.ok) {
+        if (res.ok) {
           setPost(data.posts[0]);
-
+          setLoading(false);
           setError(false);
         }
       } catch (error) {
         setError(true);
+        setLoading(false);
       }
     };
     fetchPost();
   }, [postSlug]);
+
+  if (post) {
+    console.log(post._id);
+  }
+  if (loading)
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <Spinner size="xl" />
+      </div>
+    );
+
+  if (error)
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <p>Error loading post. Please try again later.</p>
+      </div>
+    );
 
   return (
     <main className="p-3 flex flex-col max-w-6xl mx-auto min-h-screen">
@@ -63,6 +84,7 @@ export default function PostPage() {
       <div className="max-w-4xl mx-auto w-full">
         <CallAction />
       </div>
+      <CommentSection postId={post && post._id} />
     </main>
   );
 }
