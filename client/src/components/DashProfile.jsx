@@ -84,8 +84,7 @@ export default function DashProfile() {
       }
     );
   };
-  console.log(imageFileUrl);
-  console.log(formData);
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };

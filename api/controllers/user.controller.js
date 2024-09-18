@@ -147,3 +147,15 @@ export const createUser = async (request, response, next) => {
     next(error);
   }
 };
+export const getUser = async (request, response, next) => {
+  try {
+    const user = await User.findById(request.params.userId);
+    if (!user) {
+      return next(errorHandler(404, "User can not found!"));
+    }
+    const { password, ...rest } = user._doc;
+    response.status(200).json(rest);
+  } catch (error) {
+    next(error);
+  }
+};
