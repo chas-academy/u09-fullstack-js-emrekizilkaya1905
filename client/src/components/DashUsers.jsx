@@ -179,6 +179,7 @@ const DashUsers = () => {
           size="md"
         >
           <Modal.Header>Edit User</Modal.Header>
+
           <Modal.Body>
             <div className="flex flex-col space-y-4">
               <div>
