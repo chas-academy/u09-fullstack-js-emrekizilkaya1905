@@ -68,3 +68,23 @@ export const editComment = async (request, response, next) => {
     next(error);
   }
 };
+
+export const deleteComment = async (request, response, next) => {
+  try {
+    const comment = await Comment.findById(request.params.commentId);
+    if (!comment) {
+      return next(errorHandler(404, "Comment not found"));
+    }
+
+    if (comment.userId !== request.user.id && !request.user.isAdmin) {
+      return next(
+        errorHandler(403, "You are not allowed to delete this comment.")
+      );
+    }
+
+    await Comment.findByIdAndDelete(request.params.commentId); // Yorumu sil
+    response.status(200).json({ message: "Comment has been deleted." });
+  } catch (error) {
+    next(error);
+  }
+};
