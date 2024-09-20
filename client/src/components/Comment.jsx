@@ -24,10 +24,12 @@ export default function Comment({ comment, onLike, onEdit, onDelete }) {
     };
     getUser();
   }, [comment]);
+
   const handleEdit = () => {
     setEditing(true);
     setEditedContent(comment.content);
   };
+
   const handleSave = async () => {
     try {
       const response = await fetch(`/api/comment/editComment/${comment._id}`, {
@@ -45,6 +47,7 @@ export default function Comment({ comment, onLike, onEdit, onDelete }) {
       console.log(error);
     }
   };
+
   return (
     <div className="flex p-4 border-b dark:border-gray-600 text-sm">
       <div className="flex shrink-0 mr-3">
