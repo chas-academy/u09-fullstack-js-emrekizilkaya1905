@@ -1,9 +1,12 @@
 import { Sidebar } from "flowbite-react";
 import {
+  HiAcademicCap,
   HiAnnotation,
   HiArrowSmRight,
+  HiChartPie,
   HiChat,
   HiDocumentText,
+  HiExclamationCircle,
   HiOutlineUserAdd,
   HiOutlineUserCircle,
   HiOutlineUserGroup,
@@ -44,8 +47,19 @@ export default function DashSidebar() {
 
   return (
     <Sidebar className="w-full md:w-56">
-      <Sidebar.Items className="flex flex-col gap-1">
+      <Sidebar.Items>
         <Sidebar.ItemGroup>
+          {currentUser && currentUser.isAdmin && (
+            <Link to="/dashboard?tab=dash">
+              <Sidebar.Item
+                active={tab === "dash" || !tab}
+                icon={HiChartPie}
+                as="div"
+              >
+                Dashboard
+              </Sidebar.Item>
+            </Link>
+          )}
           <Link to="/dashboard?tab=profile">
             <Sidebar.Item
               active={tab === "profile"}
