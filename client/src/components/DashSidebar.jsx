@@ -111,7 +111,7 @@ export default function DashSidebar() {
           {currentUser.isAdmin && (
             <Link to="/dashboard?tab=comments">
               <Sidebar.Item
-                active={tab === "createusers"}
+                active={tab === "comments"}
                 icon={HiAnnotation}
                 labelColor="dark"
                 as="div"

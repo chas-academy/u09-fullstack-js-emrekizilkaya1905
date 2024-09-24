@@ -1,5 +1,4 @@
 import { Footer } from "flowbite-react";
-import React from "react";
 import { Link } from "react-router-dom";
 
 const FooterCom = () => {
@@ -21,7 +20,7 @@ const FooterCom = () => {
               Blog
             </Link>
           </div>
-          <div className="grid grid-cols-2 gap-8 sm:mt-4 sm:grid-cols-2 sm:gap-6">
+          <div className="grid gap-8 sm:mt-4 sm:grid-cols-2 sm:gap-6">
             <div>
               <Footer.Title title="About" />
               <Footer.LinkGroup col>
