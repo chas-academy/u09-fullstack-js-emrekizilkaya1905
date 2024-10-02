@@ -11,7 +11,11 @@ export default function Home() {
       const data = await res.json();
       setPosts(data.posts);
     };
-    fetchPosts();
+    try {
+      fetchPosts();
+    } catch (error) {
+      console.log("test");
+    }
   }, []);
   return (
     <div>
