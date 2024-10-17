@@ -18,7 +18,7 @@ const postSchema = new mongoose.Schema(
     image: {
       type: String,
       default:
-        "https://www.hostinger.com/tutorials/wp-content/uploads/sites/2/2021/09/how-to-write-a-blog-post.webp",
+        "https://yt3.googleusercontent.com/9FLDvEwtAPg2ZIxe_dmKza6QWO7ktpCEiA9gQ4KsAF-q6J906vzOMBpfOKbMAZF5iRBy9PNOyzw=s900-c-k-c0x00ffffff-no-rj",
     },
     category: {
       type: String,
